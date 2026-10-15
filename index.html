@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ИИ-система эксперта — программа Алёны Нистюк</title>
+<meta name="description" content="Практическая программа: создайте своих ИИ-агентов, делегируйте им рутину и выстройте путь клиента. Базовая 2 недели — 15 000 ₽, VIP 4 недели — 50 000 ₽.">
+<meta property="og:title" content="ИИ-система эксперта — программа Алёны Нистюк">
+<meta property="og:description" content="Свои ИИ-агенты, путь клиента и лид-магнит. Группа до 12 человек, VIP — 5 мест.">
+<meta property="og:image" content="img/hero.jpg">
+<style>
+@font-face{font-family:Lora;src:url(fonts/Lora-Regular.ttf);font-weight:400;font-display:swap}
+@font-face{font-family:Lora;src:url(fonts/Lora-Italic.ttf);font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Lora;src:url(fonts/Lora-SemiBold.ttf);font-weight:600;font-display:swap}
+:root{--plum:#2B1B3F;--violet:#4A2F6B;--amethyst:#7A5AA6;--lav:#CDBDE3;--lilac:#F3EEF9;--pearl:#F6F1FA;--paper:#FDFCFE;--ink:#2E2A36;--muted:#8B82A0;--gold:#B8954A;--gold-bg:#FBF6EA;--gold-line:#E8D3A0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Lora,Georgia,serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--amethyst)}
+h2{font-weight:400;font-size:clamp(28px,4vw,40px);line-height:1.15;color:var(--plum);margin:8px 0 14px}
+.rule{height:2px;width:120px;background:linear-gradient(90deg,#B9A2DA,#E3A9C4,#EDC3A3,#B9D8B4,#A9D3C9);margin:0 0 28px;border-radius:2px}
+section{padding:72px 0}
+ul.star{list-style:none}
+ul.star li{position:relative;padding-left:24px;margin-bottom:8px}
+ul.star li:before{content:"✦";position:absolute;left:0;top:1px;font-size:12px;color:var(--gold)}
+.btn{display:inline-block;text-decoration:none;font-family:inherit;font-size:17px;padding:15px 28px;border-radius:40px;transition:transform .15s,box-shadow .15s;text-align:center}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(74,47,107,.18)}
+.btn-main{background:linear-gradient(160deg,#B49BD8,#8C6CBB);color:#fff}
+.btn-gold{background:linear-gradient(160deg,#E2C47E,#B8954A);color:#fff}
+.btn-ghost{border:1px solid var(--lav);color:var(--violet);background:#fff}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 85% 10%,rgba(255,255,255,.3),transparent 50%),linear-gradient(165deg,#B49BD8 0%,#9B7FC9 50%,#8C6CBB 100%);color:#fff;padding:56px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero .kicker{color:#F7E7BF}
+.hero h1{font-weight:400;font-size:clamp(44px,7vw,72px);line-height:1.02;margin:14px 0 18px}
+.hero h1 i{color:#F7E7BF}
+.hero .lead{font-size:clamp(18px,2.2vw,21px);font-style:italic;color:#F6F1FA;max-width:520px}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 30px}
+.hero .facts span{border:1px solid rgba(255,255,255,.55);border-radius:30px;padding:6px 14px;font-size:14px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero .btn-main{background:#fff;color:var(--violet)}
+.hero .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.arch{border-radius:200px 200px 10px 10px;overflow:hidden;border:1.5px solid rgba(247,231,191,.9);box-shadow:0 0 0 10px rgba(255,255,255,.18);aspect-ratio:3/4.3}
+.arch img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.sig{text-align:center;margin-top:14px;font-size:13px;letter-spacing:.14em;color:#F7E7BF}
+
+/* for whom */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--lilac);border-radius:14px;padding:26px}
+.card h3{font-weight:600;font-size:19px;color:var(--violet);margin-bottom:8px}
+.goal{border-left:3px solid var(--amethyst);background:var(--pearl);padding:20px 24px;font-style:italic;color:var(--violet);margin-top:28px;border-radius:0 10px 10px 0;font-size:18px}
+.fmt{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.fmt div{border:1px solid var(--lav);border-radius:12px;padding:20px;text-align:center;background:#fff}
+.fmt b{display:block;font-weight:600;color:var(--violet);margin-bottom:4px}
+
+/* program */
+.band{border-radius:16px;padding:28px 32px;margin-bottom:28px}
+.band .tag{display:inline-block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;border-radius:20px;padding:3px 12px;margin-bottom:10px;opacity:.85}
+.band .bt{font-size:clamp(28px,4vw,38px);line-height:1.1}
+.band .bd{font-style:italic;margin-top:6px}
+.band.base{background:linear-gradient(165deg,#EEE5F8,#DCCCEF);color:var(--plum)}
+.band.vip{background:linear-gradient(165deg,#F7EBCB,#E9D29C);color:#4A3A12}
+.weeks{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.week{display:grid;grid-template-columns:64px 1fr;gap:18px}
+.wn{width:64px;height:64px;border-radius:50%;background:linear-gradient(160deg,#B49BD8,#8C6CBB);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.wn small{font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.wn span{font-size:24px;margin-top:3px}
+.wt{font-size:22px;color:var(--plum);margin:4px 0 2px}
+.wg{font-style:italic;color:var(--muted);font-size:15px;margin-bottom:12px}
+.step{margin-bottom:12px}
+.step .h{font-weight:600;color:var(--violet);margin-bottom:4px}
+.step li{font-size:16px}
+.result{border-radius:14px;padding:22px 28px;margin-top:24px;background:linear-gradient(160deg,#E9DEF6,#D8C7EE);color:var(--plum);font-size:18px}
+.result .kicker{color:#9A7B3A;margin-bottom:4px}
+.vipsec{background:#FFFCF4}
+.calls{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 22px}
+.call{border:1px solid var(--gold-line);border-radius:12px;padding:22px;background:#fff}
+.call .n{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.call .h{font-weight:600;color:var(--violet);font-size:18px;margin:4px 0 8px}
+.call p{font-size:15.5px}
+.path{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 4px}
+.path span{background:#fff;border:1px solid var(--gold-line);border-radius:30px;padding:6px 14px;font-size:15px;color:#6B5418}
+.path i{color:var(--gold);font-style:normal}
+.vipsec .result{background:linear-gradient(160deg,#F3E2B6,#E4C987);color:#3E2F0C}
+.vipsec .card{background:#F8EFD9}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+.price{border:1px solid var(--lav);border-radius:18px;padding:32px;background:#fff;display:flex;flex-direction:column}
+.price.v{border-color:var(--gold-line);background:var(--gold-bg);position:relative}
+.price .badge{position:absolute;top:-13px;right:24px;background:linear-gradient(160deg,#E2C47E,#B8954A);color:#fff;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:20px}
+.price .t{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amethyst)}
+.price.v .t{color:#9A7B3A}
+.price .d{color:var(--muted);font-size:15px}
+.price .p{font-size:44px;color:var(--plum);margin:14px 0 18px;line-height:1}
+.price ul{flex:1;margin-bottom:24px}
+.price .btn{width:100%}
+.upgrade{margin-top:28px;background:var(--gold-bg);border:1px solid var(--gold-line);border-radius:16px;padding:26px 30px}
+.upgrade h3{font-weight:400;font-size:22px;color:#6B5418;margin-bottom:6px}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.flow span{border:1px solid var(--lav);background:#fff;border-radius:30px;padding:6px 16px;color:var(--violet);font-size:15px}
+.flow span.g{border-color:#D9BC77;background:#F3E2B6;color:#4A3A12}
+.flow i{color:var(--gold);font-style:normal}
+.note{font-size:14px;color:var(--muted);margin-top:18px}
+.places{display:flex;gap:16px;margin-top:22px;flex-wrap:wrap}
+.places div{flex:1;min-width:150px;text-align:center;border:1px solid var(--gold-line);border-radius:12px;padding:14px;background:var(--gold-bg)}
+.places b{display:block;font-weight:400;font-size:28px;color:var(--plum)}
+.places small{color:var(--muted)}
+
+/* about */
+.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+.about .arch{border-color:var(--lav);box-shadow:0 0 0 10px var(--lilac)}
+.about .arch img{object-position:50% 0}
+.sign{font-style:italic;color:var(--amethyst);font-size:20px;margin-top:12px}
+
+/* faq */
+details{border-bottom:1px solid #E6DEF1;padding:18px 0}
+summary{cursor:pointer;font-size:19px;color:var(--plum);list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--amethyst);font-size:24px;line-height:1}
+details[open] summary:after{content:"–"}
+details p{margin-top:10px;color:#4A4458}
+
+/* final */
+.final{background:linear-gradient(165deg,#B49BD8,#8C6CBB);color:#fff;text-align:center;border-radius:22px;padding:48px 24px}
+.final h2{color:#fff}
+.final p{font-style:italic;color:#F3EEF9;margin-bottom:24px}
+.final .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.final .btn-main{background:#fff;color:var(--violet)}
+footer{padding:36px 0 48px;font-size:13px;color:var(--muted);text-align:center;line-height:1.8}
+footer a{color:var(--amethyst)}
+
+@media (max-width:860px){
+  section{padding:52px 0}
+  .hero .wrap,.about,.weeks,.prices{grid-template-columns:1fr}
+  .hero .photo{max-width:340px;margin:0 auto;order:-1}
+  .cards3,.fmt,.calls{grid-template-columns:1fr}
+  .band{padding:22px}
+  .about .arch{max-width:320px;margin:0 auto}
+  .btn{width:100%}
+  .hero .ctas,.final .ctas{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="kicker">Практическая программа · Алёна Нистюк</div>
+      <h1>ИИ-система<br><i>эксперта</i></h1>
+      <p class="lead">Научитесь создавать собственных ИИ-агентов, делегировать им рутину и выстроить путь клиента — от первого контакта до продажи.</p>
+      <div class="facts"><span>Старт — 2 ноября</span><span>Группа до 12 человек</span><span>VIP — 5 мест</span></div>
+      <div class="ctas">
+        <a class="btn btn-main" href="#prices">Выбрать формат</a>
+        <a class="btn btn-ghost" href="#program">Смотреть программу</a>
+      </div>
+    </div>
+    <div class="photo"><div class="arch"><img src="img/hero.jpg" alt="Алёна Нистюк"></div><div class="sig">SOLUNA SPACE</div></div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">О программе</div>
+    <h2>Для кого эта программа</h2>
+    <div class="rule"></div>
+    <div class="cards3">
+      <div class="card"><h3>Эксперты и коучи</h3><p>Консультанты, психологи, наставники, которые хотят выстроить понятный путь клиента и перестать делать всё вручную.</p></div>
+      <div class="card"><h3>Авторы курсов и услуг</h3><p>Тем, кому постоянно нужны контент, материалы и инструменты для привлечения клиентов.</p></div>
+      <div class="card"><h3>Те, кто уже пробовал нейросети</h3><p>И хочет не просто задавать вопросы в чате, а создать своих ИИ-агентов, которые работают по вашим правилам и в вашем стиле.</p></div>
+    </div>
+    <div class="goal">Цель программы — научиться создавать и настраивать ИИ-агентов под свои задачи, делегировать им регулярную работу и выстроить системный путь клиента: контент → лид-магнит → контакт → предложение → продажа.</div>
+    <div class="fmt">
+      <div><b>Эфиры в Telegram</b>Записи остаются у вас — смотрите в удобное время</div>
+      <div><b>Практика в Zoom</b>Создаём агента вместе, шаг за шагом, в прямом эфире</div>
+      <div><b>Чат группы</b>Ответы на вопросы и поддержка всё время обучения</div>
+    </div>
+  </div>
+</section>
+
+<section id="program" style="background:var(--pearl)">
+  <div class="wrap">
+    <div class="band base"><div class="tag">Недели 1–2</div><div class="bt">Базовая программа</div><div class="bd">Первый ИИ-агент от А до Я · 2 недели в группе · 15 000 ₽</div></div>
+    <div class="weeks">
+      <div class="week"><div class="wn"><small>Неделя</small><span>1</span></div><div>
+        <div class="wt">Вводная: знакомство и подготовка</div>
+        <div class="wg">Разбираемся, что такое ИИ-агенты, и готовим всё для создания своего.</div>
+        <div class="step"><div class="h">Эфир в Telegram: мир ИИ-агентов</div>
+          <ul class="star"><li>Чем ИИ-агент отличается от обычного чата с нейросетью</li><li>Какие бывают агенты и какие задачи эксперт может им делегировать</li><li>Из чего состоит агент: роль, инструкции, материалы, критерии качества</li></ul></div>
+        <div class="step"><div class="h">Подготовка рабочего пространства</div>
+          <ul class="star"><li>Какие программы установить (Claude и другие инструменты), что скачать, как настроить VPN и доступы</li><li>Какие сервисы бесплатные, а какие потребуют подписки</li></ul></div>
+        <div class="step"><div class="h">Анкета участника</div>
+          <ul class="star"><li>Расскажете о себе: продукты, аудитория и результат, который хотите получить</li><li>Выберем задачу для вашего первого агента</li></ul></div>
+      </div></div>
+      <div class="week"><div class="wn"><small>Неделя</small><span>2</span></div><div>
+        <div class="wt">Создание ИИ-агента</div>
+        <div class="wg">Смотрим на реальные примеры и собираем своего агента.</div>
+        <div class="step"><div class="h">Эфир в Telegram: мои ИИ-агенты изнутри</div>
+          <ul class="star"><li>Как устроена моя команда агентов: технический, контент и продажи</li><li>Как формулировать задачи, писать инструкции и добавлять материалы</li><li>Как проверять качество и улучшать результат</li></ul></div>
+        <div class="step"><div class="h">Мастер-класс в Zoom</div>
+          <ul class="star"><li>Создаём агента вместе в прямом эфире — шаг за шагом</li><li>Вы собираете своего агента и тестируете его на реальных задачах</li></ul></div>
+        <div class="step"><div class="h">Доработка и вопросы</div>
+          <ul class="star"><li>Чек-лист готовности агента</li><li>Ответы на вопросы в чате группы</li></ul></div>
+      </div></div>
+    </div>
+    <div class="result"><div class="kicker">Результат базовой программы</div>Свой настроенный и протестированный ИИ-агент под вашу задачу — и понимание, как создавать и улучшать следующих.</div>
+  </div>
+</section>
+
+<section class="vipsec">
+  <div class="wrap">
+    <div class="band vip"><div class="tag">Недели 3–4 · только VIP</div><div class="bt">VIP-программа</div><div class="bd">Персональная ИИ-система эксперта · 4 недели: группа + личное сопровождение · 50 000 ₽</div></div>
+    <p style="font-size:18px;margin-bottom:22px">VIP включает всю базовую программу и ещё две недели личной работы. Мы вместе разбираем вашу экспертность и продукты, прописываем путь клиента и создаём агентов именно под вашу систему. Минимум три личных созвона и самостоятельная работа между ними.</p>
+    <div class="calls">
+      <div class="call"><div class="n">Созвон 1</div><div class="h">Стратегическая сессия</div><p>Ваша экспертность, аудитория, продукты и продуктовая линейка. Прописываем путь клиента, выбираем лид-магнит и составляем карту ИИ-агентов.</p></div>
+      <div class="call"><div class="n">Созвон 2</div><div class="h">Сборка агента</div><p>Вы создаёте лид-магнит и агентов по карте. Если что-то не получается — собираем агента вместе.</p></div>
+      <div class="call"><div class="n">Созвон 3</div><div class="h">Доработка и план</div><p>Разбираем вопросы, улучшаем агентов, проверяем связку «контент → лид-магнит → предложение» и составляем план внедрения на 30 дней.</p></div>
+    </div>
+    <div class="card"><h3>Путь клиента, который мы прописываем</h3>
+      <div class="path"><span>Контент</span><i>→</i><span>Лид-магнит</span><i>→</i><span>Контакт и прогрев</span><i>→</i><span>Предложение</span><i>→</i><span>Продажа</span></div>
+      <p style="margin-top:12px;font-size:16px">Лид-магнит — PDF, тест, гайд, расчёт или Telegram-бот, который даёт первую ценность. Плюс бонус — групповой созвон для VIP-участников: ответы на вопросы и обмен опытом.</p></div>
+    <div class="result"><div class="kicker">Результат VIP-программы</div>Персональная ИИ-система: 3 работающих ИИ-агента, прописанный путь клиента, лид-магнит и план внедрения на 30 дней.</div>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="wrap">
+    <div class="kicker">Форматы участия</div>
+    <h2>Выберите свой формат</h2>
+    <div class="rule"></div>
+    <div class="prices">
+      <div class="price">
+        <div class="t">Базовая программа</div><div class="d">2 недели · в группе</div>
+        <div class="p">15 000 ₽</div>
+        <ul class="star">
+          <li>Эфир «Мир ИИ-агентов» и подготовка рабочего пространства</li>
+          <li>Анкета участника и выбор задачи для агента</li>
+          <li>Эфир «Мои ИИ-агенты изнутри»</li>
+          <li>Мастер-класс в Zoom: создаём агента вместе</li>
+          <li>Чат группы и ответы на вопросы</li>
+          <li>Ваш первый работающий ИИ-агент</li>
+        </ul>
+        <a class="btn btn-main" href="https://t.me/soluna_space_bot?start=course-landing">Записаться — 15 000 ₽</a>
+      </div>
+      <div class="price v">
+        <div class="badge">5 мест</div>
+        <div class="t">VIP-программа</div><div class="d">4 недели · группа + личное сопровождение</div>
+        <div class="p">50 000 ₽</div>
+        <ul class="star">
+          <li>Всё из базовой программы</li>
+          <li>Личная стратегическая сессия: экспертность и продукты</li>
+          <li>Путь клиента и лид-магнит</li>
+          <li>3 ИИ-агента — ваша персональная ИИ-система</li>
+          <li>Не меньше трёх личных созвонов с Алёной</li>
+          <li>Групповой созвон VIP и план внедрения на 30 дней</li>
+        </ul>
+        <a class="btn btn-gold" href="https://t.me/soluna_space_bot?start=course-landingvip">Записаться в VIP — 50 000 ₽</a>
+      </div>
+    </div>
+    <div class="upgrade">
+      <h3>Можно начать с базовой и перейти в VIP</h3>
+      <p>VIP уже включает базовую программу — это одно обучение, просто с продолжением. Можно сразу выбрать VIP за 50 000 ₽. А можно прийти на базовую за 15 000 ₽ и, если захочется идти дальше, доплатить 35 000 ₽ и продолжить в VIP — при наличии свободных мест.</p>
+      <div class="flow"><span>Базовая · 15 000 ₽</span><i>→</i><span>+ 35 000 ₽</span><i>→</i><span class="g">VIP · 50 000 ₽</span></div>
+    </div>
+    <p class="note"><b style="color:var(--violet);font-weight:600">Можно оплатить частями без переплат:</b> базовая — 2 × 7 500 ₽, VIP — 2 × 25 000 ₽ или 4 × 12 500 ₽, платежи раз в неделю. Или выберите «Подели» / «Яндекс Сплит» на странице оплаты.<br>Оплата проходит в Telegram-боте Soluna Space через Робокассу: карты российских и зарубежных банков, СБП. Чек приходит автоматически. Сразу после оплаты бот пришлёт ссылку на чат участников. Оплачивая участие, вы принимаете условия <a href="oferta.html">договора-оферты</a>.</p>
+  </div>
+</section>
+
+<section style="background:var(--pearl)">
+  <div class="wrap about">
+    <div class="arch"><img src="img/about.jpg" alt="Алёна Нистюк"></div>
+    <div>
+      <div class="kicker">Ведущая программы</div>
+      <h2>Алёна Нистюк</h2>
+      <div class="rule"></div>
+      <p>Коуч, практик эволюционного коучинга, архетипических и рунических практик. Помогаю людям находить своё предназначение, проходить через внутренние блоки и большие жизненные перемены.</p>
+      <p style="margin-top:12px">Я не программист — и именно поэтому знаю путь, который пройдёт любой эксперт. Свою практику я выстроила вместе с командой ИИ-агентов:</p>
+      <ul class="star" style="margin-top:12px">
+        <li><b>Технический архитектор</b> создал и поддерживает мой Telegram-бот: бесплатные расчёты, персональные PDF, приём оплат и рассылки работают сами</li>
+        <li><b>Агент «Голос»</b> помогает с контент-планом, постами, прогревами и аналитикой продаж</li>
+        <li><b>Агент для рилсов</b> пишет сценарии и помогает с монтажом</li>
+      </ul>
+      <p style="margin-top:12px">На программе покажу, как устроена эта система изнутри, и помогу собрать вашу.</p>
+      <div class="sign">С любовью, Алёна</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:820px">
+    <div class="kicker">Вопросы и ответы</div>
+    <h2>Частые вопросы</h2>
+    <div class="rule"></div>
+    <details><summary>Нужно ли уметь программировать?</summary><p>Нет. Программа рассчитана на экспертов без технического опыта. Всё показываю пошагово, а агента мы собираем вместе на мастер-классе.</p></details>
+    <details><summary>Какие понадобятся программы и расходы?</summary><p>Основной инструмент — Claude. Для части сервисов нужна платная подписка и VPN. Подробно расскажу в первую неделю, до того как вы что-то оплатите.</p></details>
+    <details><summary>Что, если я пропущу эфир?</summary><p>Эфиры в Telegram остаются в записи — их можно посмотреть в удобное время. Вопросы можно задать в чате группы.</p></details>
+    <details><summary>Можно ли перейти из базовой программы в VIP?</summary><p>Да. Доплачиваете 35 000 ₽ и продолжаете в VIP — при наличии свободных мест. Кнопка перехода будет в боте после оплаты базовой программы.</p></details>
+    <details><summary>Можно ли оплатить частями?</summary><p>Да, без переплат. Базовая — 2 платежа по 7 500 ₽, VIP — 2 по 25 000 ₽ или 4 по 12 500 ₽, раз в неделю. После первого платежа вы сразу в программе, о следующих бот напомнит сам. Ещё можно выбрать «Подели» или «Яндекс Сплит» прямо на странице оплаты.</p></details>
+    <details><summary>Когда старт?</summary><p>Старт ближайшего потока — 2 ноября. Группа небольшая: до 12 человек, VIP — 5 мест.</p></details>
+    <details><summary>Как проходит оплата?</summary><p>Нажмите кнопку записи — откроется Telegram-бот Soluna Space. Там выберите формат и оплатите картой или по СБП. Если страница оплаты не открывается, выключите VPN.</p></details>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="final">
+      <h2>Соберите свою ИИ-систему</h2>
+      <p>Группа небольшая — до 12 человек, VIP — 5 мест.</p>
+      <div class="ctas">
+        <a class="btn btn-main" href="https://t.me/soluna_space_bot?start=course-landingfinal">Записаться на программу</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.7);background:transparent" href="https://t.me/alenanistyuk">Задать вопрос Алёне</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    ИП Нистюк Алена Александровна · ИНН 246520357369 · ОГРНИП 318505300124669<br>
+    <a href="oferta.html">Договор-оферта</a> · <a href="https://bot-1791972499-7280-a-nistyuk-gmail-com.bothost.tech/privacy">Политика обработки персональных данных</a> · <a href="https://alenanistyuk.com">alenanistyuk.com</a> · <a href="https://t.me/alenanistyukchannel">Telegram-канал</a>
+  </div>
+</footer>
+</body>
+</html>
